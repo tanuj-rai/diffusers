@@ -28,6 +28,8 @@ from ...utils.torch_utils import randn_tensor
 from ...video_processor import VideoProcessor
 from ..pipeline_utils import DiffusionPipeline
 from .pipeline_output import WanPipelineOutput
+from megcache import megcache
+
 
 
 if is_torch_xla_available():
@@ -124,6 +126,8 @@ class WanPipeline(DiffusionPipeline, WanLoraLoaderMixin):
         transformer: WanTransformer3DModel,
         vae: AutoencoderKLWan,
         scheduler: FlowMatchEulerDiscreteScheduler,
+        megcache_enabled: bool = False,
+        megcache_config: dict = None,
     ):
         super().__init__()
 
@@ -135,9 +139,18 @@ class WanPipeline(DiffusionPipeline, WanLoraLoaderMixin):
             scheduler=scheduler,
         )
 
+        self.megcache_enabled = megcache_enabled
+        self.megcache_config = megcache_config or {}
+        if megcache_enabled:
+            self._init_megcache()
+        
         self.vae_scale_factor_temporal = 2 ** sum(self.vae.temperal_downsample) if getattr(self, "vae", None) else 4
         self.vae_scale_factor_spatial = 2 ** len(self.vae.temperal_downsample) if getattr(self, "vae", None) else 8
         self.video_processor = VideoProcessor(vae_scale_factor=self.vae_scale_factor_spatial)
+    
+    def _init_megcache(self):
+    self.megcache = {}
+    self.megcache_max_size = self.megcache_config.get("max_size", 50)   
 
     def _get_t5_prompt_embeds(
         self,
