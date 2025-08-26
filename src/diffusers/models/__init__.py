@@ -146,6 +146,8 @@ if TYPE_CHECKING or DIFFUSERS_SLOW_IMPORT:
             ControlNetModel,
             ControlNetUnionModel,
             ControlNetXSAdapter,
+            DiffSynthControlNetModel,
+            DiffSynthMultiControlNetModel,
             FluxControlNetModel,
             FluxMultiControlNetModel,
             HunyuanDiT2DControlNetModel,
