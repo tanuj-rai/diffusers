@@ -47,6 +47,7 @@ if is_torch_available():
     _import_structure["autoencoders.vq_model"] = ["VQModel"]
     _import_structure["cache_utils"] = ["CacheMixin"]
     _import_structure["controlnets.controlnet"] = ["ControlNetModel"]
+     _import_structure["controlnets.controlnet_diffsynth"] = ["DiffsynthControlNetModel", "DiffsynthMultiControlNetModel"]
     _import_structure["controlnets.controlnet_flux"] = ["FluxControlNetModel", "FluxMultiControlNetModel"]
     _import_structure["controlnets.controlnet_hunyuan"] = [
         "HunyuanDiT2DControlNetModel",
@@ -146,6 +147,8 @@ if TYPE_CHECKING or DIFFUSERS_SLOW_IMPORT:
             ControlNetModel,
             ControlNetUnionModel,
             ControlNetXSAdapter,
+            DiffsynthControlNetModel
+            DiffsynthMultiControlNetModel
             FluxControlNetModel,
             FluxMultiControlNetModel,
             HunyuanDiT2DControlNetModel,
@@ -174,6 +177,7 @@ if TYPE_CHECKING or DIFFUSERS_SLOW_IMPORT:
             CosmosTransformer3DModel,
             DiTTransformer2DModel,
             DualTransformer2DModel,
+            DiffsynthTransformer2DModel
             EasyAnimateTransformer3DModel,
             FluxTransformer2DModel,
             HiDreamImageTransformer2DModel,
